@@ -1,0 +1,6 @@
+/headscale-ui
+*.key
+*.env
+.env
+.audit/
+graphify-out/

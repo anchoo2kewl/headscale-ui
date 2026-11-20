@@ -1,0 +1,28 @@
+[Unit]
+Description=Private Headscale dashboard
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+DynamicUser=true
+ExecStart=/usr/local/bin/headscale-ui
+Environment=LISTEN=127.0.0.1:8091
+Environment=HEADSCALE_URL=http://127.0.0.1:8080
+Environment=HEADSCALE_KEY_FILE=%d/headscale-api
+LoadCredential=headscale-api:/etc/headscale-ui/api.key
+Environment=PUBLIC_URL=http://127.0.0.1:8091/
+Environment=HEADSCALE_UI_USERNAME=admin
+Environment=HEADSCALE_UI_PASSWORD_FILE=%d/ui-password
+LoadCredential=ui-password:/etc/headscale-ui/ui-password
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
